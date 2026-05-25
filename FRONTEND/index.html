@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Face Recognition</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- ======= MAIN GALLERY VIEW ======= -->
+    <div id="galleryView">
+        <main class="main-content">
+            <div class="content-wrapper">
+                <!-- Drag & Drop Upload Area -->
+                <div class="upload-section">
+                    <div id="dropZone" class="drop-zone">
+                        <div class="drop-zone-content">
+                            <div class="upload-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                                    <polyline points="17 8 12 3 7 8"/>
+                                    <line x1="12" y1="3" x2="12" y2="15"/>
+                                </svg>
+                            </div>
+                            <h2 class="drop-zone-title">Drag & drop an image here, or browse</h2>
+                            <p class="drop-zone-subtitle">SUPPORTS JPG, PNG, WEBP (MAX 50MB)</p>
+                            <button id="selectFileBtn" class="select-file-btn">Select File</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Profile Cards Grid -->
+                <div class="profile-section">
+                    <div class="gallery-grid" id="galleryGrid">
+                        <!-- Will be dynamically populated with person cards -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Hidden file input -->
+            <input type="file" id="fileInput" accept="image/*" hidden>
+        </main>
+    </div>
+
+    <!-- ======= RESULT VIEW (overlay) ======= -->
+    <div id="resultView" class="hidden">
+        <div class="result-overlay">
+            <div class="result-container">
+                <!-- Header with back button -->
+                <div class="result-topbar">
+                    <button id="backBtn" class="back-btn">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="15 18 9 12 15 6"/>
+                        </svg>
+                    </button>
+                    <span class="result-title">Recognition Result</span>
+                    <div class="result-top-spacer"></div>
+                </div>
+
+                <!-- Result body -->
+                <div class="result-body">
+                    <!-- Left: Captured image -->
+                    <div class="result-image-area">
+                        <img id="previewImage" src="" alt="Captured face" class="result-preview-img">
+                    </div>
+
+                    <!-- Right: Details -->
+                    <div class="result-details">
+                        <!-- Matched person card -->
+                        <div class="matched-person-card">
+                            <div class="matched-person-avatar" id="matchedAvatar">
+                            </div>
+                            <div class="matched-person-info">
+                                <h2 id="predictedName" class="matched-name">—</h2>
+                                <span id="confidenceBadge" class="confidence-badge high">—</span>
+                            </div>
+                        </div>
+
+                        <!-- Match probability bar -->
+                        <div class="match-bar-section">
+                            <div class="match-bar-label">
+                                <span>Match Score</span>
+                                <span id="matchScoreText" class="match-score-text">0%</span>
+                            </div>
+                            <div class="match-bar-track">
+                                <div id="matchBarFill" class="match-bar-fill" style="width: 0%"></div>
+                            </div>
+                        </div>
+
+                        <!-- All probabilities -->
+                        <div class="probabilities-section">
+                            <h3 class="prob-title">All Scores</h3>
+                            <div id="probabilityBars" class="probability-bars">
+                                <!-- Dynamically populated -->
+                            </div>
+                        </div>
+
+                        <!-- Action buttons -->
+                        <div class="result-actions">
+                            <button id="tryAgainBtn" class="action-btn primary-action">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <polyline points="23 4 23 10 17 10"/>
+                                    <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/>
+                                </svg>
+                                Try Again
+                            </button>
+                            <button id="uploadResultBtn" class="action-btn secondary-action">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                                    <polyline points="17 8 12 3 7 8"/>
+                                    <line x1="12" y1="3" x2="12" y2="15"/>
+                                </svg>
+                                New Photo
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ======= CAMERA MODAL ======= -->
+    <div id="cameraModal" class="hidden">
+        <div class="camera-overlay-bg">
+            <div class="camera-modal">
+                <div class="camera-topbar">
+                    <button id="closeCameraBtn" class="back-btn">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="15 18 9 12 15 6"/>
+                        </svg>
+                    </button>
+                    <span class="camera-title">Take a Photo</span>
+                    <button id="switchCameraBtn" class="switch-cam-btn">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
+                            <polyline points="15 13 18 10 21 13"/>
+                            <line x1="18" y1="10" x2="18" y2="16"/>
+                        </svg>
+                    </button>
+                </div>
+                <div class="camera-view">
+                    <video id="video" autoplay playsinline></video>
+                    <div class="face-guide">
+                        <div class="face-guide-ring"></div>
+                    </div>
+                </div>
+                <div class="camera-bottom">
+                    <button id="captureBtn" class="capture-btn">
+                        <div class="capture-outer">
+                            <div class="capture-inner"></div>
+                        </div>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ======= LOADING ======= -->
+    <div id="loadingOverlay" class="hidden">
+        <div class="loading-bg">
+            <div class="loading-content">
+                <div class="loading-spinner"></div>
+                <p class="loading-text">Analyzing face...</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js?v=2"></script>
+</body>
+</html>
