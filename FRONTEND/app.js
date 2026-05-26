@@ -42,6 +42,7 @@ const personImages = {
 // === API Config ===
 const API_URL = 'https://face-recognition-model-4.onrender.com/classify_image';
 
+
 function initials(name) {
     return name.split(' ').map(w => w.charAt(0).toUpperCase()).join('');
 }
@@ -180,7 +181,8 @@ async function processImage(imageData) {
     showLoading();
     previewImage.src = imageData;
     try {
-        const resp = await fetch(`${API_URL}/classify_image`, {
+ 
+        const resp = await fetch(API_URL, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ image_data: imageData }),
