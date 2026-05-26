@@ -40,12 +40,8 @@ const personImages = {
 };
 
 // === API Config ===
-
-
 const BASE_URL = 'https://face-recognition-model-4.onrender.com';
 const API_URL = `${BASE_URL}/classify_image`;
-const API_URL = 'https://face-recognition-model-4.onrender.com/classify_image';
-
 
 function initials(name) {
     return name.split(' ').map(w => w.charAt(0).toUpperCase()).join('');
@@ -185,7 +181,6 @@ async function processImage(imageData) {
     showLoading();
     previewImage.src = imageData;
     try {
- 
         const resp = await fetch(API_URL, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -213,10 +208,7 @@ function displayResults(results, imageData) {
     const probs = r.class_probability;
     const cls = r.class_dictionary;
 
-    // === Derive the name from the highest score ===
-    // Build a list of {name, probability} using class_dictionary indices
     const allScores = Object.keys(cls).map(n => ({ n, p: probs[cls[n]] }));
-    // Sort by probability descending — the top entry IS the predicted person
     const sorted = allScores.sort((a, b) => b.p - a.p);
     const topMatch = sorted[0];
     const predicted = topMatch.n;
@@ -227,11 +219,9 @@ function displayResults(results, imageData) {
 
     previewImage.src = imageData;
 
-    // === Name comes from the highest score, avatar matches that name ===
     predictedName.textContent = predicted;
     setAvatar(predicted);
 
-    // Badge based on the top score
     let bc = 'low', bt = 'Low Confidence';
     if (predictedProb >= 80) { bc = 'high'; bt = 'High Confidence'; }
     else if (predictedProb >= 50) { bc = 'medium'; bt = 'Medium Confidence'; }
