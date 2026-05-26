@@ -40,7 +40,7 @@ const personImages = {
 };
 
 // === API Config ===
-const API_URL = 'http://localhost:4000';
+const API_URL = 'https://face-recognition-model-4.onrender.com/classify_image';
 
 function initials(name) {
     return name.split(' ').map(w => w.charAt(0).toUpperCase()).join('');
