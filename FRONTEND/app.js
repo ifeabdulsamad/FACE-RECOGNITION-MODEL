@@ -40,6 +40,10 @@ const personImages = {
 };
 
 // === API Config ===
+
+
+const BASE_URL = 'https://face-recognition-model-4.onrender.com';
+const API_URL = `${BASE_URL}/classify_image`;
 const API_URL = 'https://face-recognition-model-4.onrender.com/classify_image';
 
 
@@ -49,7 +53,7 @@ function initials(name) {
 
 async function loadKnownPeople() {
     try {
-        const resp = await fetch(`${API_URL}/health`);
+        const resp = await fetch(`${BASE_URL}/health`);
         const data = await resp.json();
         knownPeople = data.classes || [];
     } catch (e) {
