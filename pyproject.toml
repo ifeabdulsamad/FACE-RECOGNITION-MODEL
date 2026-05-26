@@ -1,2 +1,8 @@
+[project]
+name = "face-recognition-model"
+version = "0.1.0"
+description = "FastAPI face recognition app"
+requires-python = ">=3.12"
+
 [tool.vercel]
 entrypoint = "SERVER.server:app"
