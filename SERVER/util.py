@@ -4,7 +4,7 @@ import numpy as np
 import base64
 import cv2
 import os
-from wavelet import w2d
+from SERVER.wavelet import w2d
 
 # Get the directory where this script is located
 __location__ = os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file__)))
